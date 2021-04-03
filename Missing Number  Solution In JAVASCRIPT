@@ -1,0 +1,34 @@
+Q:- Missing Number  Solution In JAVASCRIPT
+Description:- Given an array nums containing n distinct numbers in the range [0, n], return the only number in the range that is missing from the array.
+
+Solution:- 
+
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+var missingNumber = function(nums) {
+    let i, j;
+    let a= nums.sort(function(a, b){
+        return a-b
+    })
+    let first= a[0]
+    let t=0
+    if(first==1){
+        return 0
+    }
+    for(i=first; i<=nums.length; i++){
+        if(a[t]== i){
+            t++
+            
+            continue;
+        }
+        else if(t==nums.length){
+            return i
+        }
+        
+        else {
+            return i
+        }
+    }
+};
