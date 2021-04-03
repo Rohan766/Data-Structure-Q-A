@@ -1,0 +1,30 @@
+
+
+Q:- Delete nth node from last
+Description:- Given the head of a linked list, remove the nth node from the end of the list and return its head.
+
+
+var removeNthFromEnd = function(head, va) {
+    let list = head
+    let count=0
+// Finding the length of list
+ while(list){
+     list=list.next;
+     count++
+ }
+  let len= count-va
+  let ll= null
+  list = head
+   while(len-- !=0)
+       {
+          ll =list;
+           list=list.next
+       }
+    if(ll!=null){
+        ll.next=list.next
+        list.next=null
+    }else{
+        return head.next
+    }
+    return head
+};
