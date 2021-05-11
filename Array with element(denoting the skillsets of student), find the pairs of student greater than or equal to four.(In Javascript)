@@ -1,0 +1,78 @@
+'use strict';
+
+const fs = require('fs');
+
+process.stdin.resume();
+process.stdin.setEncoding('utf-8');
+
+let inputString = '';
+let currentLine = 0;
+
+process.stdin.on('data', function(inputStdin) {
+    inputString += inputStdin;
+});
+
+process.stdin.on('end', function() {
+    inputString = inputString.split('\n');
+
+    main();
+});
+
+function readLine() {
+    return inputString[currentLine++];
+}
+
+
+/*
+ * Complete the 'maxPairs' function below.
+ *
+ * The function is expected to return an INTEGER.
+ * The function accepts following parameters:
+ *  1. INTEGER_ARRAY skillLevel
+ *  2. INTEGER minDiff
+ */
+
+function maxPairs(skillLevel, k) {
+    
+  var count = 0;
+    let arr = skillLevel.sort(function(a, b){return a-b});
+    console.log(arr)
+    var l = 0;
+    var r = 0;
+    let n=arr.length
+    while(r < n)
+    {
+         if(arr[r] - arr[l] >= k)
+        {
+              count++;
+              l++;
+              r++;
+        }
+         else if(arr[r] - arr[l] < k){
+              r++}
+         else {
+              l++;}
+    }  
+    return count;
+
+}
+function main() {
+    const ws = fs.createWriteStream(process.env.OUTPUT_PATH);
+
+    const skillLevelCount = parseInt(readLine().trim(), 10);
+
+    let skillLevel = [];
+
+    for (let i = 0; i < skillLevelCount; i++) {
+        const skillLevelItem = parseInt(readLine().trim(), 10);
+        skillLevel.push(skillLevelItem);
+    }
+
+    const minDiff = parseInt(readLine().trim(), 10);
+
+    const result = maxPairs(skillLevel, minDiff);
+
+    ws.write(result + '\n');
+
+    ws.end();
+}
