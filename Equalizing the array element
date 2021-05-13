@@ -1,0 +1,55 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+
+string ltrim(const string &);
+string rtrim(const string &);
+
+
+
+/*
+ * Complete the 'minOperations' function below.
+ *
+ * The function is expected to return an INTEGER.
+ * The function accepts following parameters:
+ *  1. INTEGER_ARRAY arr
+ *  2. INTEGER threshold
+ *  3. INTEGER d
+ */
+
+int minOperations(vector<int> a, int k, int d) 
+    {
+       int n=a.size();
+   long int MAX = 1000000;
+    vector<int> v[MAX];
+     for (int i = 0; i < n; i++) {
+        int cnt = 0;
+        v[a[i]].push_back(0);
+ 
+        while (a[i] > 0) {
+            a[i] /= d;
+            cnt++;
+            v[a[i]].push_back(cnt);
+        }
+    }
+ 
+    int ans = INT_MAX;
+    for (int i = 0; i < MAX; i++) {
+        if (v[i].size() >= k) {
+ 
+            int move = 0;
+ 
+            sort(v[i].begin(), v[i].end());
+            for (int j = 0; j < k; j++) {
+ 
+                move += v[i][j];
+            }
+            ans = min(ans, move);
+        }
+    }
+ 
+    return ans;
+
+}
+
+int main()
