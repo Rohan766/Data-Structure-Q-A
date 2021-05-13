@@ -1,0 +1,113 @@
+'use strict';
+
+const fs = require('fs');
+
+process.stdin.resume();
+process.stdin.setEncoding('utf-8');
+
+let inputString = '';
+let currentLine = 0;
+
+process.stdin.on('data', function(inputStdin) {
+    inputString += inputStdin;
+});
+
+process.stdin.on('end', function() {
+    inputString = inputString.split('\n');
+
+    main();
+});
+
+function readLine() {
+    return inputString[currentLine++];
+}
+
+
+
+/*
+ * Complete the 'getMaxArea' function below.
+ *
+ * The function is expected to return a LONG_INTEGER_ARRAY.
+ * The function accepts following parameters:
+ *  1. INTEGER w
+ *  2. INTEGER h
+ *  3. BOOLEAN_ARRAY isVertical
+ *  4. INTEGER_ARRAY distance
+ */
+
+function getMaxArea(w, h, isVertical, distance) {
+    console.log(isVertical)
+  if (isVertical.length != distance.length) return null;
+    if (w == 0 || h == 0) return 0;
+    let grid = new Array(h).fill(0).map(() => new Array(w).fill()); 
+    let largestArea = w*h;
+    let areas = [];
+    for (let i = 0; i < isVertical.length; i++) {
+        let boundaryArea = 0;
+        if (isVertical[i] == 1) {
+            boundaryArea = drawVerticalBoundary(distance[i], grid); 
+        } else {
+            boundaryArea = drawHorizontalBoundary(h-distance[i], grid);
+        }
+        largestArea = Math.max(largestArea-boundaryArea, boundaryArea);
+        areas.push(largestArea);
+    }
+    return areas;
+}
+
+function drawVerticalBoundary(maxCol, grid) {
+    let area = 0;
+    for (let row = 0; row < grid.length; row++) {
+        for (let col = 0; col < maxCol; col++) {
+            if (!grid[row][col]) {
+                area++;
+                grid[row][col] = 1;
+            }
+        }
+    }
+    return area;
+}
+
+function drawHorizontalBoundary(maxRow, grid) {
+    let area = 0;
+    for (let row = 0; row < maxRow; row++) {
+        for (let col = 0; col < grid[0].length; col++) {
+            if (!grid[row][col]) { 
+                area++;
+                grid[row][col] = 1;
+            }
+        }
+    }
+    return area;
+}
+function main() {
+    const ws = fs.createWriteStream(process.env.OUTPUT_PATH);
+
+    const w = parseInt(readLine().trim(), 10);
+
+    const h = parseInt(readLine().trim(), 10);
+
+    const isVerticalCount = parseInt(readLine().trim(), 10);
+
+    let isVertical = [];
+
+    for (let i = 0; i < isVerticalCount; i++) {
+        const isVerticalItem = parseInt(readLine().trim(), 10) != 0;
+        isVertical.push(isVerticalItem);
+    }
+
+    const distanceCount = parseInt(readLine().trim(), 10);
+
+    let distance = [];
+
+    for (let i = 0; i < distanceCount; i++) {
+        const distanceItem = parseInt(readLine().trim(), 10);
+        distance.push(distanceItem);
+    }
+
+    const result = getMaxArea(w, h, isVertical, distance);
+
+    ws.write(result.join('\n') + '\n');
+
+    ws.end();
+}
