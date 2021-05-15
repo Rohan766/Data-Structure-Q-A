@@ -1,0 +1,26 @@
+function largestsum(arr) {
+  var max_so_far = Number.NEGATIVE_INFINITY;
+  let men = 0;
+  let left
+  let rigth
+  for (let i = 0; i < arr.length; i++) {
+    men = men + arr[i];
+    if (men < arr[i]) {
+      men = arr[i];
+      left=i;
+    }
+    if (max_so_far < men) {
+      max_so_far = men;
+      rigth=i
+    }
+  }
+ console.log(men, max_so_far);
+  let ar = [];
+  for (let j = left; j <=rigth; j++) {
+      ar.push(arr[j]);
+  }
+  console.log('Max_sum:->',max_so_far, 'Sub_array',ar);
+}
+
+let ar = [-2, -3, 4, -1, -2, 1, 5, -3];
+largestsum(ar);
